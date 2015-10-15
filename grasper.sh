@@ -40,8 +40,8 @@ else
 	blastall -a ${CPU} -p blastn -d ${REFSEQ} -i ${REFSEQ} -o ${REFSEQ}.blast
 	echo -e "\n[BLASTN] DONE\n"
 	echo -e "\n[A_l-Bruijn graph construction] ..."
-	${BL2ABR_BIN}/bl2aln -i ${REFSEQ}.blast -o ${REFSEQ}.blast.aln -l ${LEG} -d ${MIN_SEQ_SIM}
-	${BL2ABR_BIN}/repeat_sin -i ${REFSEQ}.blast.aln -s ${REFSEQ} -o ${REFSEQ}.blast.aln.rg -l ${LEG}
+	${REPGRAPH_BIN}/bl2aln -i ${REFSEQ}.blast -o ${REFSEQ}.blast.aln -l ${LEG} -d ${MIN_SEQ_SIM}
+	${REPGRAPH_BIN}/repeat_sin -i ${REFSEQ}.blast.aln -s ${REFSEQ} -o ${REFSEQ}.blast.aln.rg -l ${LEG}
 	echo -e "\n[A_l-Bruijn graph construction] DONE\n"
     fi
     

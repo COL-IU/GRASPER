@@ -1,5 +1,5 @@
-#PATH to blast2rep program is installed.
-BL2ABR_BIN=/u/heewlee/ABruijn/blast2rep_blastFIX/
+#PATH to RepGraph package is installed.
+REPGRAPH_BIN=/u/heewlee/ABruijn/blast2rep_blastFIX/
 
 #PATH to the bin directory under GRASPER installation directory
 GRASPER_BIN=/data/groups/heewlee/MA/Simulation_data/eColi_ABruijn/NEW6_TANDEM/GRASPER_v_0.1/bin
