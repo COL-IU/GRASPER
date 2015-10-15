@@ -1,0 +1,332 @@
+[heewlee@ngs test_data]$ ../grasper.sh I example_config.txt 
+example_config.txt
+[INDEXING] ...
+[bwa_index] Pack FASTA... 0.06 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 1.53 seconds elapse.
+[bwa_index] Update BWT... 0.04 sec
+[bwa_index] Pack forward-only FASTA... 0.01 sec
+[bwa_index] Construct SA from BWT and Occ... 0.41 sec
+[main] Version: 0.7.9a-r786
+[main] CMD: bwa index ecoli.fna
+[main] Real time: 2.075 sec; CPU: 2.059 sec
+[INDEXING] DONE
+
+[heewlee@ngs test_data]$ ../grasper.sh G example_config.txt 
+example_config.txt
+[Running BLASTN] ...
+
+[BLASTN] DONE
+
+
+[A_l-Bruijn graph construction] ...
+# alignments input: 444.
+Done...
+Genome length: 4639675 
+Read equivalent readintervales...
+# equivalent readintervales input: 444
+intitialize nodes...
+done.
+# of nodes before merge: 9279350
+Merge...
+# merged overlaps: 444
+done.
+# of nodes after merge: 9100932
+Edges assigned.
+Distribution of # assigned long edges in one read.
+-------------------------------------------------------------------------------------
+        0        1        2        3        4        5        6       7+      All
+-------------------------------------------------------------------------------------
+        0        0        0        0        0        0        0        2       28
+-------------------------------------------------------------------------------------
+12 nodes are removed.
+Edge made.
+# edges: 470
+36 bulges removed, 230 vertics 364 edges left.
+Remove shortedges...
+done.
+118 vertices remained.
+118 vertices 250 edges (2 source 2 sinks) remained.
+Allocating paths...
+Define paths...
+118 vertics 250 edges (2 source 2 sinks) remained: total length 9099440 (maximal 326954).
+edge initialed
+len_path 142421200
+Sequence1: 0 -- 0[111](1,15377) --> 72 -- 108[115](3,1345) --> 74 -- 113[172](1,3056) --> 96 -- 171[185](6,768) --> 101 -- 187[119](1,202902) --> 
+76 -- 116[27](3,87) --> 1 -- 1[26](7,5126) --> 2 -- 2[146](8,131) --> 89 -- 149[58](2,124) --> 3 -- 3[139](1,10094) --> 
+84 -- 138[247](4,280) --> 116 -- 242[155](1,13962) --> 90 -- 152[125](5,124) --> 81 -- 127[217](1,16283) --> 110 -- 215[184](3,1041) --> 
+101 -- 189[124](4,181) --> 78 -- 120[226](1,2188) --> 112 -- 219[240](10,1198) --> 114 -- 230[173](1,4014) --> 96 -- 171[185](6,768) --> 
+101 -- 189[124](4,181) --> 78 -- 122[45](1,10307) --> 20 -- 29[174](2,206) --> 96 -- 171[185](6,768) --> 101 -- 186[205](1,23829) --> 
+108 -- 204[131](5,1255) --> 83 -- 132[212](1,64776) --> 111 -- 218[33](6,626) --> 10 -- 14[162](7,706) --> 95 -- 163[136](1,9112) --> 
+82 -- 131[204](5,1255) --> 109 -- 208[126](1,45179) --> 80 -- 125[152](5,124) --> 91 -- 153[17](1,87200) --> 8 -- 11[15](2,1535) --> 
+9 -- 12[209](1,39765) --> 108 -- 204[131](5,1255) --> 83 -- 135[227](1,6547) --> 112 -- 219[240](10,1198) --> 114 -- 236[89](1,2342) --> 
+4 -- 5[87](2,366) --> 5 -- 6[86](1,1808) --> 6 -- 8[84](2,1060) --> 7 -- 9[130](1,15617) --> 80 -- 125[152](5,124) --> 
+91 -- 156[109](1,10901) --> 72 -- 108[115](3,1345) --> 74 -- 112[225](1,78494) --> 112 -- 219[240](10,1198) --> 114 -- 238[158](1,18786) --> 
+93 -- 161[57](3,100) --> 48 -- 73[53](1,21531) --> 49 -- 76[194](2,117) --> 102 -- 192[50](3,2695) --> 14 -- 18[49](4,591) --> 
+15 -- 19[178](5,405) --> 99 -- 180[51](1,854) --> 14 -- 18[49](4,591) --> 15 -- 19[178](5,405) --> 99 -- 182[246](1,1539) --> 
+116 -- 245[140](4,887) --> 84 -- 138[247](4,280) --> 116 -- 245[140](4,887) --> 84 -- 137[145](1,41906) --> 86 -- 141[103](4,76) --> 
+16 -- 20[144](1,151) --> 86 -- 141[103](4,76) --> 16 -- 21[142](1,356) --> 86 -- 141[103](4,76) --> 16 -- 22[102](2,193) --> 
+17 -- 23[129](1,21477) --> 80 -- 125[152](5,124) --> 91 -- 154[92](1,111579) --> 40 -- 59[90](2,220) --> 41 -- 60[191](1,134532) --> 
+100 -- 185[171](6,768) --> 97 -- 176[134](1,43696) --> 82 -- 131[204](5,1255) --> 109 -- 206[72](1,112061) --> 26 -- 38[70](2,242) --> 
+27 -- 39[32](1,15761) --> 28 -- 41[30](2,355) --> 29 -- 42[235](1,170925) --> 115 -- 240[219](10,1198) --> 113 -- 224[88](1,25962) --> 
+4 -- 5[87](2,366) --> 5 -- 7[83](1,8193) --> 61 -- 93[81](2,3047) --> 62 -- 94[169](1,33142) --> 94 -- 162[14](7,706) --> 
+23 -- 33[218](6,626) --> 110 -- 215[184](3,1041) --> 101 -- 189[124](4,181) --> 78 -- 121[16](1,57411) --> 8 -- 11[15](2,1535) --> 
+9 -- 13[248](1,2213) --> 116 -- 245[140](4,887) --> 84 -- 138[247](4,280) --> 116 -- 243[56](1,37680) --> 63 -- 96[54](2,1454) --> 
+64 -- 97[95](1,60435) --> 53 -- 81[93](2,3047) --> 54 -- 82[10](1,266) --> 55 -- 84[8](2,1060) --> 56 -- 85[34](1,13946) --> 
+10 -- 14[162](7,706) --> 95 -- 165[175](1,326954) --> 96 -- 171[185](6,768) --> 101 -- 190[65](1,65255) --> 44 -- 66[62](3,104) --> 
+45 -- 67[69](1,13396) --> 42 -- 62[66](3,104) --> 43 -- 63[64](1,4111) --> 44 -- 66[62](3,104) --> 45 -- 68[221](1,3818) --> 
+112 -- 219[240](10,1198) --> 114 -- 231[168](1,1588) --> 94 -- 162[14](7,706) --> 23 -- 33[218](6,626) --> 110 -- 211[223](1,31472) --> 
+112 -- 219[240](10,1198) --> 114 -- 233[207](1,67222) --> 108 -- 204[131](5,1255) --> 83 -- 133[61](1,57728) --> 59 -- 90[59](2,220) --> 
+60 -- 91[220](1,59541) --> 112 -- 219[240](10,1198) --> 114 -- 232[40](1,181770) --> 46 -- 70[38](2,242) --> 47 -- 71[110](1,42141) --> 
+72 -- 108[115](3,1345) --> 74 -- 114[143](1,5547) --> 86 -- 141[103](4,76) --> 16 -- 22[102](2,193) --> 17 -- 24[151](1,204543) --> 
+88 -- 146[2](8,131) --> 18 -- 26[1](7,5126) --> 19 -- 28[199](4,183) --> 107 -- 200[44](1,28397) --> 20 -- 29[174](2,206) --> 
+96 -- 170[43](1,18051) --> 21 -- 30[41](2,355) --> 22 -- 31[164](1,217870) --> 94 -- 162[14](7,706) --> 23 -- 33[218](6,626) --> 
+110 -- 214[128](1,73577) --> 80 -- 125[152](5,124) --> 91 -- 157[101](1,38951) --> 24 -- 35[99](2,94) --> 25 -- 36[234](1,19701) --> 
+115 -- 240[219](10,1198) --> 113 -- 228[213](1,54750) --> 111 -- 218[33](6,626) --> 10 -- 14[162](7,706) --> 95 -- 167[160](1,82287) --> 
+93 -- 161[57](3,100) --> 48 -- 74[222](1,95732) --> 112 -- 219[240](10,1198) --> 114 -- 237[198](1,56455) --> 104 -- 195[147](3,205) --> 
+88 -- 146[2](8,131) --> 18 -- 25[148](1,115) --> 88 -- 146[2](8,131) --> 18 -- 26[1](7,5126) --> 19 -- 27[116](3,87) --> 
+77 -- 117[106](1,41150) --> 50 -- 77[104](2,1186) --> 51 -- 78[188](1,112101) --> 100 -- 185[171](6,768) --> 97 -- 177[193](1,34993) --> 
+102 -- 192[50](3,2695) --> 14 -- 18[49](4,591) --> 15 -- 19[178](5,405) --> 99 -- 179[47](1,956) --> 52 -- 80[249](2,399) --> 
+116 -- 245[140](4,887) --> 84 -- 138[247](4,280) --> 116 -- 244[229](1,26507) --> 112 -- 219[240](10,1198) --> 114 -- 239[55](1,12941) --> 
+63 -- 96[54](2,1454) --> 64 -- 98[52](1,94438) --> 49 -- 76[194](2,117) --> 102 -- 192[50](3,2695) --> 14 -- 18[49](4,591) --> 
+15 -- 19[178](5,405) --> 99 -- 181[46](1,391) --> 52 -- 80[249](2,399) --> 116 -- 241[48](1,538) --> 15 -- 19[178](5,405) --> 
+99 -- 183[203](1,173792) --> 106 -- 199[28](4,183) --> 1 -- 1[26](7,5126) --> 2 -- 2[146](8,131) --> 89 -- 149[58](2,124) --> 
+3 -- 4[202](1,88217) --> 106 -- 199[28](4,183) --> 1 -- 1[26](7,5126) --> 2 -- 2[146](8,131) --> 89 -- 147[195](3,205) --> 
+105 -- 196[75](1,96944) --> 38 -- 57[161](3,100) --> 92 -- 159[201](1,28405) --> 106 -- 199[28](4,183) --> 1 -- 1[26](7,5126) --> 
+2 -- 2[146](8,131) --> 89 -- 147[195](3,205) --> 105 -- 197[79](1,3976) --> 69 -- 104[77](2,1186) --> 70 -- 105[118](1,30714) --> 
+76 -- 116[27](3,87) --> 1 -- 1[26](7,5126) --> 2 -- 2[146](8,131) --> 89 -- 150[37](1,149386) --> 65 -- 99[35](2,94) --> 
+66 -- 100[210](1,135538) --> 111 -- 218[33](6,626) --> 10 -- 14[162](7,706) --> 95 -- 166[123](1,7937) --> 79 -- 124[189](4,181) --> 
+100 -- 184[215](3,1041) --> 111 -- 216[107](1,132957) --> 13
+---------------------------------------------------------------------------------
+Vertices Edge Source Sink Tangles Super-tangles Overall-length
+---------------------------------------------------------------------------------
+118      250  2      2    68      40            9099190       
+---------------------------------------------------------------------------------
+
+Statistics of the super-tangles:
+---------------------------------------------------------------------------------
+Supertangle #tangles(total len) length of max-multip(multip)    max-length(multip) 
+---------------------------------------------------------------------------------
+1           5       (5642     ) 131            (8       )       5126(          7)
+2           1       (366      ) 366            (2       )        366(          2)
+3           1       (1060     ) 1060           (2       )       1060(          2)
+4           1       (1535     ) 1535           (2       )       1535(          2)
+5           6       (2551     ) 706            (7       )       1041(          3)
+6           1       (1535     ) 1535           (2       )       1535(          2)
+7           4       (3805     ) 405            (5       )       2695(          3)
+8           1       (268      ) 76             (4       )        193(          2)
+9           5       (5642     ) 131            (8       )       5126(          7)
+10          6       (2551     ) 706            (7       )       1041(          3)
+11          1       (355      ) 355            (2       )        355(          2)
+12          1       (94       ) 94             (2       )        242(          2)
+13          1       (355      ) 355            (2       )        355(          2)
+14          4       (3805     ) 405            (5       )       2695(          3)
+15          1       (1454     ) 1454           (2       )       1454(          2)
+16          1       (100      ) 100            (3       )        100(          3)
+17          1       (220      ) 220            (2       )        220(          2)
+18          1       (104      ) 104            (3       )        104(          3)
+19          1       (104      ) 104            (3       )        104(          3)
+20          1       (242      ) 242            (2       )        242(          2)
+21          1       (1186     ) 1186           (2       )       1186(          2)
+22          3       (2052     ) 887            (4       )        887(          4)
+23          1       (3047     ) 3047           (2       )       3047(          2)
+24          1       (1060     ) 1060           (2       )       1060(          2)
+25          1       (366      ) 366            (2       )        366(          2)
+26          1       (220      ) 220            (2       )        220(          2)
+27          1       (3047     ) 3047           (2       )       3047(          2)
+28          1       (1454     ) 1454           (2       )       1454(          2)
+29          1       (268      ) 76             (4       )        193(          2)
+30          1       (1186     ) 1186           (2       )       1186(          2)
+31          1       (1345     ) 1345           (3       )       1345(          3)
+32          1       (1345     ) 1345           (3       )       1345(          3)
+33          1       (124      ) 124            (5       )        124(          5)
+34          1       (1255     ) 1255           (5       )       1255(          5)
+35          3       (2450     ) 887            (4       )        887(          4)
+36          1       (124      ) 124            (5       )        124(          5)
+37          1       (100      ) 100            (3       )        100(          3)
+38          1       (1255     ) 1255           (5       )       1255(          5)
+39          1       (1198     ) 1198           (10      )       1198(         10)
+40          1       (1198     ) 1198           (10      )       1198(         10)
+---------------------------------------------------------------------------------
+
+Distribution of vertex degrees:
+---------------------------------------------------------------------------------
+         \ Indegree     0    1    2    3    4    5    >6
+Outdegree \       
+---------------------------------------------------------------------------------
+   0                    0    2    0    0    0    0    0
+   1                    2    0   31    9    3    6    0
+   2                    0   31    2    0    0    0    2
+   3                    0    9    0    0    0    0    1
+   4                    0    3    0    0    0    1    0
+   5                    0    6    0    0    1    0    0
+  >6                    0    0    2    1    0    0    0
+------------------------------------------------------------------------
+
+Number of tangles (repeat edges): 68.
+Distribution of tangle multiplicities:
+---------------------------------------------------------------------------------
+            \ Length     <500     <1000    <5000   <10000   >10000   Total
+Multiplicity \   
+---------------------------------------------------------------------------------
+    1 (non-repeated)       10        6       22       10      128      176
+    2                      20        0       10        0        0       30
+    3                       8        0        6        0        0       14
+    4                       8        4        0        0        0       12
+    5                       4        0        2        0        0        6
+    6                       0        4        0        0        0        4
+   >6                       2        2        2        2        0        8
+Total                      52       16       42       12      128      250
+---------------------------------------------------------------------------------
+The overall length of the edges is: 9099190.
+
+[A_l-Bruijn graph construction] DONE
+
+[heewlee@ngs test_data]$ ../grasper.sh ASD example_config.txt 20Insertions_per_element_1TH_pIRS_20X_11_90_470_1.fq.gz 20Insertions_per_element_1TH_pIRS_20X_11_90_470_2.fq.gz 
+example_config.txt
+[Running BWA-MEM] ...
+
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52783, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 469, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.51, 11.00)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 3.287 CPU sec, 3.286 real sec
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52913, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 468, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.47, 11.04)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 3.920 CPU sec, 3.920 real sec
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52846, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 469, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.61, 10.96)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 3.910 CPU sec, 3.910 real sec
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52960, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 468, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.51, 10.94)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 3.883 CPU sec, 3.883 real sec
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52908, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 468, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.37, 10.98)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 4.293 CPU sec, 4.293 real sec
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52757, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 469, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.59, 10.99)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 4.125 CPU sec, 4.125 real sec
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52914, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 468, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.48, 10.97)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 3.935 CPU sec, 3.935 real sec
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52820, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 468, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.41, 10.99)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 4.037 CPU sec, 4.037 real sec
+[M::main_mem] read 111112 sequences (10000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 52888, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 468, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.46, 11.02)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 111112 reads in 3.943 CPU sec, 3.942 real sec
+[M::main_mem] read 45336 sequences (4080240 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 21472, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (461, 469, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (431, 506)
+[M::mem_pestat] mean and std.dev: (468.54, 10.92)
+[M::mem_pestat] low and high boundaries for proper pairs: (416, 521)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 45336 reads in 6.231 CPU sec, 6.230 real sec
+[main] Version: 0.7.9a-r786
+[main] CMD: bwa mem -M -t 1 ecoli.fna 20Insertions_per_element_1TH_pIRS_20X_11_90_470_1.fq.gz 20Insertions_per_element_1TH_pIRS_20X_11_90_470_2.fq.gz
+[main] Real time: 46.541 sec; CPU: 46.500 sec
+
+[BWA-MEM] DONE
+
+
+[Loading depth information from mapped-reads and serializing depth arrays] ...
+
+
+[depth processing] DONE
+
+
+[sorting SAM records based on midpoint and filtering obvious concordant read-pairs] ...
+
+
+[sorting] DONE
+
+
+[GRASPER running to filter out more concordant read-pairs and detect SVs] ...
+
+
+[GRASPER] DONE
+
+[heewlee@ngs test_data]$ ls
+20Insertions_per_element_1TH_pIRS_20X_11_90_470_1.fq.gz  ecoli.fna.bwt    ecoli.fna.sa           testcase_PE.discordant.midsorted
+20Insertions_per_element_1TH_pIRS_20X_11_90_470_2.fq.gz  ecoli.fna.edge   ecoli.fna.thread       testcase_PE.SV
+ecoli.fna                                                ecoli.fna.graph  example_config.txt     testcase_PE.SV.log
+ecoli.fna.amb                                            ecoli.fna.intv   formatdb.log           testcase.sort.log
+ecoli.fna.ann                                            ecoli.fna.nhr    testcase.medMAD        tmp19.gvz
+ecoli.fna.blast                                          ecoli.fna.nin    testcase_PE
+ecoli.fna.blast.aln                                      ecoli.fna.nsq    testcase_PE.depth
+ecoli.fna.blast.aln.rg                                   ecoli.fna.pac    testcase_PE.depth.log
+[heewlee@ngs test_data]$ 

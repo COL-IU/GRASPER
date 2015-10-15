@@ -1,0 +1,68 @@
+#PATH to blast2rep program is installed.
+BL2ABR_BIN=/u/heewlee/ABruijn/blast2rep_blastFIX/
+
+#PATH to the bin directory under GRASPER installation directory
+GRASPER_BIN=/data/groups/heewlee/MA/Simulation_data/eColi_ABruijn/NEW6_TANDEM/GRASPER_v_0.1/bin
+
+#Number of CPU cores (used for BLAST, bwa and grasper_mutli.sh)
+CPU=1
+
+#Name of output directory (projname/samplename)
+PROJNAME=testcase
+
+#SAM file name (both r1 and r2) text version of bam
+SAMPE=${PROJNAME}_PE
+
+#PATH to the medmadfile (absolute path should be used unless you are running it from the directory where this file is present)
+MEDMADFILE=testcase.medMAD
+
+#PATH to the reference genome fasta file (absolute path should be used unless you are running it from the directory where this file is present)
+REFSEQ=ecoli.fna
+
+#Number of STD from mean to define clustering boundary
+NSTD=4
+
+#Number of STD from mean to filter discordant reads
+DISCORDANT_NSTD=6
+
+#read lengths (This is the untrimmed read length or max read length)
+READLEN=90
+
+#If using trimmed reads of varying lengths, should set this option to "true" (true|false)
+DYNAMIC_READLEN=true
+
+#Length of the reference genome
+GENOMELEN=4639675
+
+#Minimum number of reads mapped to an edge to be considered as significant
+MIN_COVERAGE=5
+
+#Minimum number of reads required in a cluster to be recognized as a valid cluster
+MIN_NUM_READS_PER_CLUSTER=5
+
+#Minimum sequence similarity level for A-Bruijn graph construction (0.95)
+MIN_SEQ_SIM=0.95
+
+#A-Bruijn graph minimum leg length (often same as READLEN. Shoul never be larger than READLEN)
+LEG=${READLEN}
+
+
+# -------- parameters below are only USED FOR MULTI --------
+#directory containing .medMAD files of all lines in a single experiment
+MEDMADDIR=medMAD
+
+#file containing a list of all samples (e.g. MA lines) analyzed as a group (e.g. experiment)
+#each file contains just the prefix for eac sample. (e.g. WT-NNN, WT is the experiment name NNN is the line number. WT-001, WT-002, etc ) 
+LIST=WT.list
+
+#base directory containing all the analysis
+BASE=MA-Analysis_run1
+
+#prefix for experiment
+JOB=WT
+
+#path to the directory (experiment)  holding all subdirectories (one for each MA line)
+#under run5_data, WT-001, WT-002, ... , WT-NNN directories are there. Each holding *.1.fq.gz and *.2.fq.gz.
+#This will automatically fetch all lines listed on ${LIST} file located under ${DATADIR} run grasper on each line.
+DATADIR=run5_data
+
