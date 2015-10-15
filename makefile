@@ -1,16 +1,15 @@
-all: create samsort clusterapp
+all: create grasper
 
 clean:
-	rm *.class
+	rm src/classes/*.class
+	rmdir src/classes
 	rm -rf bin/*.jar
-
+	rmdir bin
 create:
 	mkdir -p bin
 
-samsort:
-	javac SAMSort.java
-	jar cfe bin/SAMSort.jar SAMSort -C . .
-
-clusterapp:
-	javac ClusterApp.java
-	jar cfe bin/ClusterApp.jar ClusterApp -C . .
+grasper:
+#	javac -Xlint:unchecked Thread.java 
+	mkdir -p src/classes
+	javac -cp src src/Grasper.java -d src/classes
+	jar cfe bin/grasper.jar Grasper -C src/classes .
