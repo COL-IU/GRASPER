@@ -59,9 +59,8 @@ Then, compile and create .jar files
 > make
  
 
-This will create a new directory "bin" under the grasper directory with the following jar files:
+This will create a new directory "bin" under the grasper directory with the following jar file:
 
-SAMSort.jar
 grasper.jar
 
 
