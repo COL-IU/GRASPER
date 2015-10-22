@@ -27,8 +27,21 @@ else
     then
 	echo "[INDEXING] ..."
 	formatdb -p F -i ${REFSEQ} 
+	if [ $? -eq 0 ]
+	then
+	    echo -e ""
+	else
+	    echo -e "\n[INDEXING] error in running formatdb [BLAST].\nSystem Exiting...\n"
+	    exit 1
+	fi
 	bwa index ${REFSEQ} 
-	echo -e "[INDEXING] DONE\n"
+	if [ $? -eq 0 ]
+	then
+	    echo -e "\n[INDEXING] DONE\n"
+	else
+	    echo -e "\n[INDEXING] error in running bwa index.\nSystem Exiting...\n"
+	    exit 1
+	fi
     fi
     
 #------------------------------------------
@@ -37,12 +50,32 @@ else
     if [[ "$1" = G ]]
     then
 	echo -e "[Running BLASTN] ..."
-	blastall -a ${CPU} -p blastn -d ${REFSEQ} -i ${REFSEQ} -o ${REFSEQ}.blast
-	echo -e "\n[BLASTN] DONE\n"
+	blastall -a ${CPU} -p blastn -d ${REFSEQ} -i ${REFSEQ} -o ${REFSEQ}.blast &> ${REFSEQ}.blast.log
+	if [ $? -eq 0 ]
+	then
+	    echo -e "\n[BLASTN] DONE\n"
+	else
+	    echo -e "\n[BLASTN] error in running blastall. See ${REFSEQ}.blast.log.\nSystem Exiting...\n "
+	    exit 1
+	fi
+
 	echo -e "\n[A_l-Bruijn graph construction] ..."
-	${REPGRAPH_BIN}/bl2aln -i ${REFSEQ}.blast -o ${REFSEQ}.blast.aln -l ${LEG} -d ${MIN_SEQ_SIM}
-	${REPGRAPH_BIN}/repeat_sin -i ${REFSEQ}.blast.aln -s ${REFSEQ} -o ${REFSEQ}.blast.aln.rg -l ${LEG}
-	echo -e "\n[A_l-Bruijn graph construction] DONE\n"
+	${REPGRAPH_BIN}/bl2aln -i ${REFSEQ}.blast -o ${REFSEQ}.blast.aln -l ${LEG} -d ${MIN_SEQ_SIM} &> ${REFSEQ}.bl2aln.log
+	if [ $? -eq 0 ]
+	then
+	    echo -e ""
+	else
+	    echo -e "\n[A_l-Bruijn graph construction] error in running bl2aln in RepGraph Package. See ${REFSEQ}.bl2aln.log.\nSystem Exiting...\n"
+	    exit 1
+	fi
+	${REPGRAPH_BIN}/repeat_sin -i ${REFSEQ}.blast.aln -s ${REFSEQ} -o ${REFSEQ}.blast.aln.rg -l ${LEG} &> ${REFSEQ}.thread.log
+	if [ $? -eq 0 ]
+	then
+	    echo -e "\n[A_l-Bruijn graph construction] DONE\n"
+	else
+	    echo -e "\n[A_l-Bruijn graph construction] error in running repeat_sin in RepGraph Package. See ${REFSEQ}.thread.log.\nSystem Exiting...\n"
+	    exit 1
+	fi
     fi
     
 #------------------------------------------
@@ -52,7 +85,13 @@ else
     then
 	echo -e "[Running BWA-MEM] ...\n"
 	bwa mem -M -t 1 ${REFSEQ} $3 $4 > ${SAMPE}
-	echo -e "\n[BWA-MEM] DONE\n"
+	if [ $? -eq 0 ]
+	then
+	    echo -e "\n[BWA-MEM] DONE\n"
+	else
+	    echo -e "[BWA-MEM] Error in running BWA-MEM.\nSystem Exiting...\n"
+	    exit 1
+	fi
     fi
     
 #------------------------------------------
@@ -61,11 +100,24 @@ else
     if [[ "$1" == *D* ]]
     then
 	echo -e "\n[Loading depth information from mapped-reads and serializing depth arrays] ...\n"
-	java -jar ${GRASPER_BIN}/grasper.jar depth ${REFSEQ}.thread ${SAMPE} ${MEDMADFILE} ${CONFIG} &> ${SAMPE}.depth.log
-	echo -e "\n[depth processing] DONE\n"
+	echo -e "java -jar ${GRASPER_BIN}/grasper.jar depth ${REFSEQ}.thread ${SAMPE} ${CONFIG}\n"
+	java -jar ${GRASPER_BIN}/grasper.jar depth ${REFSEQ}.thread ${SAMPE} ${CONFIG} &> ${SAMPE}.depth.log
+	if [ $? -eq 0 ]
+	then
+	    echo -e "\n[depth processing] DONE\n"
+	else
+	    echo -e "[depth processing] Error in running depth command of GRASPER: See ${SAMPE}.depth.log.\nSystem Exiting...\n"
+	    exit 1
+	fi
 	echo -e "\n[sorting SAM records based on midpoint and filtering obvious concordant read-pairs] ...\n"
-	java -jar ${GRASPER_BIN}/grasper.jar sort ${SAMPE} ${MEDMADFILE} ${CONFIG} &> ${PROJNAME}.sort.log
-	echo -e "\n[sorting] DONE\n"
+	java -jar ${GRASPER_BIN}/grasper.jar sort ${SAMPE} ${CONFIG} &> ${PROJNAME}.sort.log
+	if [ $? -eq 0 ]
+	then
+	    echo -e "\n[sorting] DONE\n"
+	else
+	    echo -e "[sorting] Error in running sort command of GRASPER: See ${PROJNAME}.sort.log.\nSystem Exiting...\n"
+	    exit 1
+	fi
     fi
     
 #------------------------------------------
@@ -74,7 +126,14 @@ else
     if [[ "$1" == *S* ]]
     then
 	echo -e "\n[GRASPER running to filter out more concordant read-pairs and detect SVs] ...\n"
-	java -jar ${GRASPER_BIN}/grasper.jar sv ${REFSEQ}.thread ${SAMPE}.discordant.midsorted ${MEDMADFILE} ${CONFIG} ${SAMPE}.depth > ${SAMPE}.SV 2> ${SAMPE}.SV.log
+	java -jar ${GRASPER_BIN}/grasper.jar sv ${REFSEQ}.thread ${SAMPE}.discordant.midsorted ${CONFIG} ${SAMPE}.depth > ${SAMPE}.SV 2> ${SAMPE}.SV.log
+	if [ $? -eq 0 ]
+	then
+	    echo -e "\n[GRASPER] DONE\n"
+	else
+	    echo -e "[GRASPER] Error in running sv command of GRASPER: See ${PROJNAME}.SV.log.\nSystem Exiting...\n"
+	    exit 1
+	fi
 	echo -e "\n[GRASPER] DONE\n"
     fi
     

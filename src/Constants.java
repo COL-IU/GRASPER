@@ -82,7 +82,6 @@ public class Constants{
     /* GENOMELEN */
     public static int GENOMELEN = 3284156;//4639675;
     
-
     public static int DEPTH_WIN_SIZE = 100;
     
     public static int MIN_DEPTH = 1;
@@ -106,7 +105,12 @@ public class Constants{
     public static int MIN_TANDUP_SIZE = 1000;
     public static int MAX_TANDUP_SIZE = 100000;
 
+    public static String PROJNAME = "PROJNAME";
+
+    public static String MEDMADFILE = "";
+
     public static void printConstants(){
+	System.err.println("PROJNAME:\t" + PROJNAME);
 	System.err.println("MEDIAN:\t" + MEDIAN);
 	System.err.println("MAD:\t" + MAD);
 	System.err.println("STD:\t" + STD);
@@ -204,14 +208,35 @@ public class Constants{
 	    br.close();
 	    med = (int) Double.parseDouble(tokens[0]);
 	    mad = (int) Double.parseDouble(tokens[1]);
+	}catch(FileNotFoundException fnfe){
+	    System.err.println("medMAD file : " + medmadFile + "\tNOT FOUND!");
+	    fnfe.printStackTrace();
+	    System.exit(30);//using 30 for medMAD file not found.
 	}catch(IOException ioe){
 	    ioe.printStackTrace();
 	}
 	Constants.loadConstants(med, mad, configFile);
     }
     
+    public static void loadMedMAD(String medmadFile){
+	BufferedReader br = null;
+	try{
+	    br = new BufferedReader(new FileReader(medmadFile));
+	    String[] tokens = br.readLine().split("\\t");
+	    br.close();
+	    Constants.MEDIAN = (int) Double.parseDouble(tokens[0]);
+	    Constants.MAD = (int) Double.parseDouble(tokens[1]);
+	}catch(FileNotFoundException fnfe){
+	    System.err.println("medMAD file : " + medmadFile + "\tNOT FOUND!");
+	    fnfe.printStackTrace();
+	    System.exit(30);//using 30 for medMAD file not found.
+	}catch(IOException ioe){
+	    ioe.printStackTrace();
+	}
+    }
+
     public static void loadConstants(int med, int mad, String configFile){
-	Constants.loadConstants(configFile);
+	Constants.loadConstants(configFile, false);
 	Constants.MEDIAN = med;
 	Constants.MAD = mad;
 	Constants.updateConstants();
@@ -219,7 +244,11 @@ public class Constants{
     }
     
 
-    public static void loadConstants(String configFile){
+    public static void loadConstants(String configFile, boolean suppressmsg){
+	Constants.loadConstants(configFile, suppressmsg, true);
+    }
+    
+    public static void loadConstants(String configFile, boolean suppressmsg, boolean loadMedMAD){
 	BufferedReader br = null;
 	try{
 	    br = new BufferedReader(new FileReader(configFile));
@@ -230,11 +259,24 @@ public class Constants{
 		    Constants.processConfigLine(curline);
 	    }
 	    br.close();
+	    if(loadMedMAD){
+		if(Constants.MEDMADFILE.equals("")){
+		    Constants.MEDMADFILE = Constants.PROJNAME + ".medMAD_GRASPER";
+		    Constants.loadMedMAD(Constants.MEDMADFILE);
+		    Constants.updateConstants();
+		}
+	    }else{
+		Constants.updateConstants();
+	    }
+	    
 	}catch(IOException ioe){
 	    ioe.printStackTrace();
-	
 	}
+	if(!suppressmsg)
+	    Constants.printConstants();
+
     }
+    
     public static void updateConstants(){
 	Constants.STD = Constants.MAD * 3 / 2; // assuming normal.
 	Constants.MAX_D = Constants.MEDIAN + (Constants.NSTD * Constants.STD);
@@ -259,35 +301,39 @@ public class Constants{
     
     public static void processConfigLine(String line){
 	if(line.startsWith("MEDIAN="))
-	    Constants.MEDIAN = (int) Double.parseDouble(line.substring(line.indexOf("=")+1));
+	    Constants.MEDIAN = (int) Double.parseDouble(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("MAD="))
-	    Constants.MAD = (int) Double.parseDouble(line.substring(line.indexOf("=")+1));
+	    Constants.MAD = (int) Double.parseDouble(line.substring(line.indexOf("=")+1).trim());
 	//else if(line.startsWith("STD="))
-	//   Constants.STD = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	//   Constants.STD = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("NSTD="))
-	    Constants.NSTD = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.NSTD = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("DISCORDANT_NSTD="))
-	    Constants.DISCORDANT_NSTD = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.DISCORDANT_NSTD = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("READLEN="))
-	    Constants.READLEN = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.READLEN = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("MIN_COVERAGE="))
-	    Constants.MIN_COVERAGE = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.MIN_COVERAGE = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("GENOMELEN="))
-	    Constants.GENOMELEN = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.GENOMELEN = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("DYNAMIC_READLEN="))
-	    Constants.DYNAMIC_READLEN = (line.substring(line.indexOf("=")+1).equals("true") ? true : false);
+	    Constants.DYNAMIC_READLEN = (line.substring(line.indexOf("=")+1).trim().equals("true") ? true : false);
 	else if(line.startsWith("MIN_NUM_READS_PER_CLUSTER="))
-	    Constants.MIN_NUM_READS_PER_CLUSTER = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.MIN_NUM_READS_PER_CLUSTER = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("MIN_TANDUP_SIZE="))
-	    Constants.MIN_TANDUP_SIZE = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.MIN_TANDUP_SIZE = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("MAX_TANDUP_SIZE="))
-	    Constants.MAX_TANDUP_SIZE = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.MAX_TANDUP_SIZE = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("MIN_DELETION_SIZE="))
-	    Constants.MIN_DELETION_SIZE = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.MIN_DELETION_SIZE = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("MIN_TRANSPOSITION_TARGET="))
-	    Constants.MIN_TRANSPOSITION_TARGET = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.MIN_TRANSPOSITION_TARGET = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("MAX_TRANSPOSITION_TARGET="))
-	    Constants.MAX_TRANSPOSITION_TARGET = Integer.parseInt(line.substring(line.indexOf("=")+1));
+	    Constants.MAX_TRANSPOSITION_TARGET = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
+	else if(line.startsWith("PROJNAME"))
+	    Constants.PROJNAME = line.substring(line.indexOf("=")+1).trim();
+	else if(line.startsWith("MEDMADFILE")) // optional (only needed if using user defined medMAD values
+	    Constants.MEDMADFILE = line.substring(line.indexOf("=")+1).trim();
 	else
 	    System.err.println("Unused config field (Skipping):\t" + line);
     }

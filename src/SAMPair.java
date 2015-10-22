@@ -41,6 +41,7 @@ public class SAMPair{
 	this.read1 = r1;
 	this.read2 = r2;
 	this.orientation = this.calcOrientation();
+	System.err.println("orientation=" + this.orientation);
 	this.insertSize = this.calcInsertSize();
 	//qcuPCOCS = false;
     }
@@ -59,6 +60,12 @@ public class SAMPair{
 	return false;
     }
 
+    public boolean isBothUnmapped(){
+	if(this.orientation == 0)
+	    return true;
+	return false;
+    }
+
     public boolean isConcordant(){
 	
 	if(orientation == 1 || orientation == 2){
@@ -71,6 +78,12 @@ public class SAMPair{
 	
     }
     
+    public boolean isDiscordant(){
+	if(!this.isConcordant() && isBothMapped())
+	    return true;
+	return false;
+    }
+
     public byte getOrientation(){
 	return this.orientation;
     }
@@ -126,8 +139,8 @@ public class SAMPair{
       0x0800 : optical or PCR duplicate
     */
     private byte calcOrientation(){
-	//System.out.println("READ1 :\t" + this.read1.toString() + "\n"
-	//		   +"READ2 :\t" + this.read2.toString() );
+	System.err.println("READ1 :\t" + this.read1.toString() + "\n"
+			   +"READ2 :\t" + this.read2.toString() );
 	boolean r1fwd = true;
 	boolean r1mapped = false;
 	boolean r2fwd = true;
@@ -142,7 +155,11 @@ public class SAMPair{
 	    r2fwd = getDirection(this.read2.getFlag());
 	}
 
+	System.err.println("r1mapped:\t" + r1mapped);
+	System.err.println("r2mapped:\t" + r2mapped);
+
 	if(r1mapped && r2mapped){
+	    System.err.println(" r1mapped && r2mapped");
 	    if(r1fwd ^ r2fwd){// if they are opposite direction
 		if(r1fwd && (read1.getStart() <= read2.getStart()) )
 		    return 1;

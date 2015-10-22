@@ -2,7 +2,7 @@
 REPGRAPH_BIN=/u/heewlee/ABruijn/blast2rep_blastFIX/
 
 #PATH to the bin directory under GRASPER installation directory
-GRASPER_BIN=/data/groups/heewlee/MA/Simulation_data/eColi_ABruijn/NEW6_TANDEM/GRASPER_v_0.1/bin
+GRASPER_BIN=/data/groups/heewlee/MA/Simulation_data/eColi_ABruijn/NEW6_TANDEM/IU_GIT/GRASPER/bin
 
 #Number of CPU cores (used for BLAST, bwa and grasper_mutli.sh)
 CPU=1
@@ -14,7 +14,7 @@ PROJNAME=testcase
 SAMPE=${PROJNAME}_PE
 
 #PATH to the medmadfile (absolute path should be used unless you are running it from the directory where this file is present)
-MEDMADFILE=testcase.medMAD
+#MEDMADFILE=testcase.medMAD
 
 #PATH to the reference genome fasta file (absolute path should be used unless you are running it from the directory where this file is present)
 REFSEQ=ecoli.fna

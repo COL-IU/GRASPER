@@ -26,15 +26,17 @@ public class SAMSort{
 
     public static void main(String[] args) throws Exception{
 
-	if(args.length != 3){
-	    System.err.println("USAGE: java -jar SAMSort.jar <BWA PAIRED SAM file> <medMAD file> <configFile>");
+	if(args.length != 2){
+	    System.err.println("USAGE: java -jar SAMSort.jar <BWA PAIRED SAM file> <configFile>");
 	}else{
-	    //args[1]: medMAD args[2]: conf file
-	    Constants.loadConstants(args[1], args[2]);
+	    System.err.println("Running: java -jar SAMSort.jar " + args[0] + " " + args[1]);
+	    //args[1]: conf file
+	    Constants.loadConstants(args[1], false);
 	    
 	    StringBuffer headers = new StringBuffer();
 	    
 	    ArrayList<SAM> list = new ArrayList<SAM>();
+	    
 	    BufferedReader br = new BufferedReader(new FileReader(args[0]));
 	    int i = 0;
 	    int count = 0;
@@ -51,7 +53,12 @@ public class SAMSort{
 	    
 	    int totalPairCount = 0;
 	    int discordantPairCount = 0;
-	    
+	    int singleEndMappedPairCount = 0;
+	    int unmappedPairCount = 0;
+
+	    BufferedWriter unmapped_bw = null;
+	    BufferedWriter se_bw = null;
+
 	    while( !done ){
 		curline = br.readLine();
 		if(curline == null)
@@ -88,8 +95,10 @@ public class SAMSort{
 		    
 		    totalPairCount++;
 		    
+
 		    //only collect discordant
-		    if(!new SAMPair(s1, s2).isConcordant()){
+		    SAMPair tmppair = new SAMPair(s1, s2);
+		    if(tmppair.isDiscordant()){
 			discordantPairCount++;
 			list.add(s1);
 			list.add(s2);
@@ -107,8 +116,26 @@ public class SAMSort{
 			    i++;
 			    list = new ArrayList<SAM>();
 			}
-		    }else{
-			
+		    }else if(!tmppair.isBothUnmapped()){//single-end mapped
+			if(se_bw == null){
+			    se_bw = new BufferedWriter(new FileWriter(args[0] + ".singleEndMapped"));
+			    se_bw.write(headers.toString());
+			}
+			singleEndMappedPairCount++;
+			se_bw.write(s1.getSamline() + "\n");
+			se_bw.write(s2.getSamline() + "\n");
+			s1 = null;
+			s2 = null;
+		    }else{ // both unmapped
+			if(unmapped_bw == null){
+			    unmapped_bw = new BufferedWriter(new FileWriter(args[0] + ".unmapped"));
+			    unmapped_bw.write(headers.toString());
+			}
+			unmappedPairCount++;
+			unmapped_bw.write(s1.getSamline() + "\n");
+			unmapped_bw.write(s2.getSamline() + "\n");
+			s1 = null;
+			s2 = null;
 		    }
 		    
 		}else{
@@ -119,30 +146,11 @@ public class SAMSort{
 	    br.close();
 	    br = null;
 	    
-	    /*
-	      
-	      while((curline= br.readLine()) != null){
-	      if(!curline.startsWith("@")){
-	      list.add(new SAM(curline));
-	      count++;
-	      if(list.size() == 200000){
-	      Collections.sort(list);
-	      BufferedWriter bw = new BufferedWriter(new FileWriter(args[0] + ".part_" + i));
-	      for(SAM s: list){
-	      bw.write(s.getSamline() + "\n");
-	      }
-	      bw.close();
-	      bw = null;
-	      i++;
-	      list = new ArrayList<SAM>();
-	      }
-	      }else{
-	      headers.append(curline + "\n");
-	      }
-	      }
-	      br.close();
-	      br = null;
-	    */
+	    if(se_bw != null)
+		se_bw.close();
+	    if(unmapped_bw != null)
+		unmapped_bw.close();
+
 	    if(list.size() > 0){
 		Collections.sort(list);
 		BufferedWriter bw = new BufferedWriter(new FileWriter(args[0] + ".part_" + i));
@@ -243,8 +251,9 @@ public class SAMSort{
 	    //int discordantPairCount = 0;
 	    System.out.println("------ DONE WITH REMOVAL OF CONCORDANT & UNMAPPED PAIRS ---------");
 	    System.out.println("------ Processed a total of\t" + totalPairCount + " read-pairs" );
-	    System.out.println("------ Retained a total of\t" + discordantPairCount + " read-pairs" );
-	    
+	    System.out.println("------ Retained a total of\t" + discordantPairCount + " read-pairs writtend out to " + args[0] + ".discordant.midsorted" );
+	    System.out.println("------ Single-end mapped :\t" + singleEndMappedPairCount + " read-pairs written out to " + args[0] + ".singleEndMapped" );
+	    System.out.println("------ Unmapped (both ends) : \t" + unmappedPairCount + " read-pairs written out to " + args[0] + ".unmapped" );
 	}
     }
     

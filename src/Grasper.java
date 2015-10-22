@@ -29,8 +29,8 @@ public class Grasper{
 	    String command = args[0];
 	    
 	    if(command.equals("depth")){
-		if(args.length == 5){
-		    Constants.loadConstants(args[3], args[4]);
+		if(args.length == 4){
+		    Constants.loadConstants(args[3], false, false);
 		    ClusterApp obj = new ClusterApp(new Thread(Constants.GENOMELEN, args[1]));
 		    obj.run(args[2], true);
 		}else{
@@ -38,17 +38,17 @@ public class Grasper{
 		    Grasper.printDepthUsage();
 		}
 	    }else if(command.equals("sv")){
-		if(args.length == 6){
-		    Constants.loadConstants(args[3], args[4]);
+		if(args.length == 5){
+		    Constants.loadConstants(args[3], false);
 		    ClusterApp obj = new ClusterApp(new Thread(Constants.GENOMELEN, args[1]));
-		    obj.run(args[2], args[5]);
+		    obj.run(args[2], args[4]);
 		}else{
 		    System.err.print("USAGE:\t");
 		    Grasper.printSVUsage();
 		}
 	    }else if(command.equals("sort")){
-		if(args.length == 4){
-		    SAMSort.main(Arrays.copyOfRange(args,1,4));
+		if(args.length == 3){
+		    SAMSort.main(Arrays.copyOfRange(args,1,3));
 		}else{
 		    System.err.print("USAGE:\t");
 		    Grasper.printSortUsage();
@@ -69,13 +69,13 @@ public class Grasper{
     }
 
     private static void printDepthUsage(){
-	System.err.println("java -jar grasper.jar depth <threadFile> <sorted sam> <medMAD file> <config_file>\n");
+	System.err.println("java -jar grasper.jar depth <threadFile> <sorted sam> <config_file>\n");
     }
     private static void printSortUsage(){
-	System.err.println("java -jar grasper.jar sort <bwa paired SAM file> <medMAD file> <config_file>\n");
+	System.err.println("java -jar grasper.jar sort <bwa paired SAM file> <config_file>\n");
     }
     private static void printSVUsage(){
-	System.err.println("java -jar grasper.jar sv <threadFile> <midsorted SAM from 'sort' program> <medMAD file> <config_file> <depth file from 'depth' program>\n");
+	System.err.println("java -jar grasper.jar sv <threadFile> <midsorted SAM from 'sort' program> <config_file> <depth file from 'depth' program>\n");
     }
 
     private static void printVersion(){

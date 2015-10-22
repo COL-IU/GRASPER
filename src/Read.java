@@ -451,12 +451,29 @@ public class Read implements Comparable<Read>{
 
 
 class SimpleReadsLoader{
+    
+    private ArrayList<Integer> inserts;
+    private double[] medMAD;
 
-    public SimpleReadsLoader(String samfile, Thread t){
+    SimpleReadsLoader(String samfile, Thread t){
+	this.inserts = new ArrayList<Integer>();
+	this.medMAD = new double[2];
 	this.loadReader(samfile, t);
     }
 
     
+    //check if the pair is --><-- and positive insert size.
+    private boolean isCO(String flagStr, int isize){
+	if(isize > 0){
+	    short testingVal = 0x0030;//0b110000
+	    short flag = Short.parseShort(flagStr);
+	    //--><--
+	    if( (flag & testingVal) == 0x0020)
+		return true;
+	}
+	return false;
+    }
+
     private boolean qcFilter(String mapQual){
 	byte mappingQual = Byte.parseByte(mapQual);
 	if(mappingQual >= Constants.MIN_MAP_QUAL)
@@ -496,9 +513,14 @@ class SimpleReadsLoader{
 			if(Constants.DEBUG4)
 			    System.err.println("\tSRL[QCED & MAPPED]: loading read record" );
 			Read r = new Read(tokens);//return as soon as we have next record.
-			if(r.getLength() >= Constants.MIN_MAPPINGLEN)
+			if(r.getLength() >= Constants.MIN_MAPPINGLEN){
+			    //checking if read paid is correctly oriented ---> <--- for iSize distribution inference (added 10/20/15 to infer medMAD internally)
+			    int tmpISize = Integer.parseInt(tokens[8]);
+			    if(this.isCO(tokens[1], tmpISize))
+				this.inserts.add(new Integer(tmpISize));
+			    
 			    return r;
-			else{
+			}else{
 			    if(Constants.DEBUG4)
 				System.err.println("\tRL[NO PADD]: skipping this read");
 			}
@@ -527,7 +549,7 @@ class SimpleReadsLoader{
 	BufferedReader br = null;
 	String curline = null;
 	Read curRead = null;
-		
+	
 	try{
 	    br = new BufferedReader(new FileReader(samfile));
 	    curRead = this.feed(br);
@@ -536,6 +558,8 @@ class SimpleReadsLoader{
 		
 		do{
 		    curInterval = t.getIntervalForPositionX(curRead.getLinPos());
+		    if(curInterval == null)
+			System.err.println(">>>>>READ LIN POS >>>>" + curRead.getLinPos());
 		    curRead.updateDepth(curInterval);
 		    
 		}while( (curRead = this.feed(br)) !=null);
@@ -546,10 +570,50 @@ class SimpleReadsLoader{
 	    ioe.printStackTrace();
 	}
 	
+	if(!this.writeMedMADFile())
+	    System.exit(1);
+	    
 	t.serializeDepthArray(samfile);
     }
 
-    
+    private double calculateMAD(){
+        double [] absDevs = new double[this.inserts.size()];
+        for(int i=0; i<this.inserts.size();i++){
+            absDevs[i] = Math.abs(this.inserts.get(i).doubleValue() - this.medMAD[0]);
+        }
+        Arrays.sort(absDevs);
+        if(absDevs.length % 2 == 1)
+            return absDevs[absDevs.length/2];
+        else
+            return ( (absDevs[absDevs.length/2] + absDevs[absDevs.length/2 - 1]) / 2.0d );
+    }
+
+    private boolean writeMedMADFile(){
+	int numData = this.inserts.size();
+	if(numData > 0){
+	    Collections.sort(this.inserts);
+	    if(numData % 2 == 1)
+		this.medMAD[0] = this.inserts.get(numData/2)*1.0d;
+	    else
+		this.medMAD[0] = ( (this.inserts.get(numData/2) + this.inserts.get(numData/2 - 1))*1.0d ) / (2.0d);
+	    this.medMAD[1] = this.calculateMAD();
+	    
+	    BufferedWriter bw = null;
+	    try{
+		bw = new BufferedWriter(new FileWriter(Constants.PROJNAME + ".medMAD_GRASPER"));
+		bw.write(medMAD[0] + "\t" + medMAD[1] + "\n");
+		bw.close();
+	    }catch(IOException ioe){
+		ioe.printStackTrace();
+	    }
+	}else{
+	    this.medMAD[0] = 0.0d;
+	    this.medMAD[1] = 0.0d;
+	    System.err.println("No corrected oriented paired-end reads to infer medMAD values. Check your reads. System exiting... NO depth file written as a result.");
+	    return false;
+	}
+	return true;
+    }    
     
 }
 
