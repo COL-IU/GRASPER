@@ -1,5 +1,5 @@
 #PATH to RepGraph package is installed.
-REPGRAPH_BIN=/u/heewlee/ABruijn/blast2rep_blastFIX/
+REPGRAPH_BIN=/home/data1/groups/heewlee/MA/Simulation_data/eColi_ABruijn/NEW6_TANDEM/IU_GIT/RepGraph
 
 #PATH to the bin directory under GRASPER installation directory
 GRASPER_BIN=/data/groups/heewlee/MA/Simulation_data/eColi_ABruijn/NEW6_TANDEM/IU_GIT/GRASPER/bin

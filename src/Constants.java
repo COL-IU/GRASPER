@@ -264,11 +264,11 @@ public class Constants{
 	    }
 	    br.close();
 	    if(loadMedMAD){
-		if(Constants.MEDMADFILE.equals("")){
+		if(Constants.MEDMADFILE.equals(""))
 		    Constants.MEDMADFILE = Constants.PROJNAME + ".medMAD_GRASPER";
-		    Constants.loadMedMAD(Constants.MEDMADFILE);
-		    Constants.updateConstants();
-		}
+				
+		Constants.loadMedMAD(Constants.MEDMADFILE);
+		Constants.updateConstants();
 	    }else{
 		Constants.updateConstants();
 	    }

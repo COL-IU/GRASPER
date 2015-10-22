@@ -43,7 +43,7 @@ To build and run GRASPER, the following are required:
 
 - a reference genome sequence
 
-- .medMAD file containing meadian and Median Absolute Deviation (MAD) values for library insert size. 1 SD ~ 1.4826 MAD (https://en.wikipedia.org/wiki/Median_absolute_deviation) under normal distribution. This file contains single line of 2 values delimited by a tab.
+- as of v0.1.1, .medMAD file is generated AUTOMATICALLY from RepGraph (v 0.1.1). This file contains meadian and Median Absolute Deviation (MAD) values for library insert size. 1 SD ~ 1.4826 MAD (https://en.wikipedia.org/wiki/Median_absolute_deviation) under normal distribution. This file contains single line of 2 values delimited by a tab.
 
 -------------------------
       Installation
