@@ -109,8 +109,12 @@ public class Constants{
 
     public static String MEDMADFILE = "";
 
+    public static String REFSEQ = "";
+
     public static void printConstants(){
 	System.err.println("PROJNAME:\t" + PROJNAME);
+	System.err.println("REFSEQ:\t" + REFSEQ);
+	System.err.println("MEDMADFILE:\t" + MEDMADFILE);
 	System.err.println("MEDIAN:\t" + MEDIAN);
 	System.err.println("MAD:\t" + MAD);
 	System.err.println("STD:\t" + STD);
@@ -184,7 +188,7 @@ public class Constants{
 	Constants.MAD = mad;
 	Constants.STD = Constants.MAD * 3 / 2; // assuming normal.
 	Constants.NSTD = nstd;
-	Constants.GENOMELEN = genomeLen;
+	//Constants.GENOMELEN = genomeLen;
 	Constants.MAX_D = Constants.MEDIAN + (Constants.NSTD * Constants.STD);
 	Constants.READLEN = 90;
 	Constants.MAX_D_MIDPOINTS = Constants.MAX_D - Constants.READLEN;
@@ -277,6 +281,34 @@ public class Constants{
 
     }
     
+    private static void loadGenomeLength(){
+	if(!Constants.REFSEQ.equals("")){
+	    File lenFile = new File(Constants.REFSEQ + ".len");
+	    if(lenFile.exists()){
+		BufferedReader br = null;
+		try{
+		    br = new BufferedReader(new FileReader(lenFile));
+		    String curline = br.readLine();
+		    if(curline!=null)
+			Constants.GENOMELEN = Integer.parseInt(curline);
+		    else{
+			br.close();
+			throw new Exception(Constants.REFSEQ + ".len : can't find genome length.\nSystem exiting..." );
+		    }			
+		}catch(IOException ioe){
+		    System.err.println("System exiting...");
+		    ioe.printStackTrace();
+		    System.exit(-1);
+		}catch(Exception e){
+		    e.printStackTrace();
+		    System.exit(-1);
+		}
+	    }
+	}else
+	    System.err.println("Can't find reference sequence.\nSystem exiting...");
+    }
+
+
     public static void updateConstants(){
 	Constants.STD = Constants.MAD * 3 / 2; // assuming normal.
 	Constants.MAX_D = Constants.MEDIAN + (Constants.NSTD * Constants.STD);
@@ -314,8 +346,8 @@ public class Constants{
 	    Constants.READLEN = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("MIN_COVERAGE="))
 	    Constants.MIN_COVERAGE = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
-	else if(line.startsWith("GENOMELEN="))
-	    Constants.GENOMELEN = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
+	//else if(line.startsWith("GENOMELEN="))
+	//    Constants.GENOMELEN = Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 	else if(line.startsWith("DYNAMIC_READLEN="))
 	    Constants.DYNAMIC_READLEN = (line.substring(line.indexOf("=")+1).trim().equals("true") ? true : false);
 	else if(line.startsWith("MIN_NUM_READS_PER_CLUSTER="))
@@ -334,7 +366,10 @@ public class Constants{
 	    Constants.PROJNAME = line.substring(line.indexOf("=")+1).trim();
 	else if(line.startsWith("MEDMADFILE")) // optional (only needed if using user defined medMAD values
 	    Constants.MEDMADFILE = line.substring(line.indexOf("=")+1).trim();
-	else
+	else if(line.startsWith("REFSEQ")){
+	    Constants.REFSEQ = line.substring(line.indexOf("=")+1).trim();
+	    Constants.loadGenomeLength();
+	}else
 	    System.err.println("Unused config field (Skipping):\t" + line);
     }
 }

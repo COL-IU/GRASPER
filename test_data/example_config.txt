@@ -13,9 +13,6 @@ PROJNAME=testcase
 #SAM file name (both r1 and r2) text version of bam
 SAMPE=${PROJNAME}_PE
 
-#PATH to the medmadfile (absolute path should be used unless you are running it from the directory where this file is present)
-#MEDMADFILE=testcase.medMAD
-
 #PATH to the reference genome fasta file (absolute path should be used unless you are running it from the directory where this file is present)
 REFSEQ=ecoli.fna
 
@@ -31,9 +28,6 @@ READLEN=90
 #If using trimmed reads of varying lengths, should set this option to "true" (true|false)
 DYNAMIC_READLEN=true
 
-#Length of the reference genome
-GENOMELEN=4639675
-
 #Minimum number of reads mapped to an edge to be considered as significant
 MIN_COVERAGE=5
 
@@ -45,7 +39,6 @@ MIN_SEQ_SIM=0.95
 
 #A-Bruijn graph minimum leg length (often same as READLEN. Shoul never be larger than READLEN)
 LEG=${READLEN}
-
 
 # -------- parameters below are only USED FOR MULTI --------
 #directory containing .medMAD files of all lines in a single experiment
@@ -65,4 +58,14 @@ JOB=WT
 #under run5_data, WT-001, WT-002, ... , WT-NNN directories are there. Each holding *.1.fq.gz and *.2.fq.gz.
 #This will automatically fetch all lines listed on ${LIST} file located under ${DATADIR} run grasper on each line.
 DATADIR=run5_data
+
+
+
+#>>>>>>>>>>>>>>>>>>>> parameters no longer used  <<<<<<<<<<<<<<<<<<<<
+#Length of the reference genome (NO LONGER USED: automatically loaded by the progam from $REFSEQ.len file created from Graph Construction)
+#GENOMELEN=4639675
+
+#PATH to the medmadfile (absolute path should be used unless you are running it from the directory where this file is present)
+#this parameter can be specified to overide (NOT RECOMMENDED)
+#MEDMADFILE=testcase.medMAD
 
